@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Hydration Pro Clinical — Smart Web</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@700;900&display=swap');
@@ -21,7 +21,7 @@ body {
   align-items: center;
   min-height: 100vh;
   color: #0ff;
-  overflow: hidden;
+  overflow: auto; /* Allow body scrolling */
 }
 
 .container {
@@ -32,8 +32,7 @@ body {
   box-shadow: 0 10px 30px rgba(0, 255, 255, 0.6), 0 0 50px rgba(0, 255, 255, 0.4);
   width: 100%;
   max-width: 720px;
-  height: 80vh;
-  overflow: hidden;
+  min-height: 80vh; /* Changed to min-height for better scrolling */
   display: flex;
   flex-direction: column;
   padding: 25px;
@@ -41,6 +40,7 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
   opacity: 0;
   pointer-events: none;
+  overflow: visible; /* Remove overflow hidden to allow full scrolling */
 }
 
 .container.show {
@@ -90,7 +90,6 @@ body {
   transition: all 1s ease;
 }
 
-
 #splashCard.show {
   opacity: 1;
   transform: scale(1);
@@ -108,8 +107,8 @@ body {
 
 .inner-container {
   padding: 15px;
-  overflow-y: auto;
-  height: 100%;
+  overflow-y: visible; /* Allow content to overflow for full page scroll */
+  min-height: 100%; /* Changed to min-height */
   scrollbar-width: none;
 }
 .inner-container::-webkit-scrollbar { width: 0; }
@@ -257,10 +256,30 @@ body {
   text-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
 }
 @media (max-width: 480px) {
-  .container { height: auto; padding: 15px; transform: translateY(0); }
+  body {
+    align-items: flex-start; /* Align to top for better mobile experience */
+    padding-top: 20px; /* Add some top padding */
+    overflow-y: auto; /* Ensure body can scroll */
+    touch-action: pan-y; /* Improve touch scrolling */
+  }
+  .container { 
+    height: auto; 
+    min-height: auto; 
+    padding: 15px; 
+    transform: translateY(0); 
+    margin-bottom: 100px; /* Add bottom margin to allow scrolling past keyboard */
+  }
   .container:hover { transform: translateY(-5px); }
+  .inner-container {
+    padding: 15px 0;
+    overflow-y: visible;
+    height: auto;
+  }
   .question, .result-card, .schedule-card { font-size: 0.95rem; }
-  .input-container input, .input-container select { font-size: 0.95rem; padding: 10px 8px; }
+  .input-container input, .input-container select { 
+    font-size: 0.95rem; 
+    padding: 10px 8px; 
+  }
   .download-btn { width: 50px; height: 50px; font-size: 20px; }
   .question-label { font-size: 1.05rem; }
   #scheduleCard { font-size: 0.9rem; min-width: 220px; width: 95%; }
@@ -400,6 +419,14 @@ function createQuestionElement(obj, index) {
   }
 
   input.setAttribute('data-index', index);
+  input.addEventListener('focus', (e) => {
+    // Scroll to make input visible above keyboard on mobile
+    setTimeout(() => {
+      const rect = e.target.getBoundingClientRect();
+      const offset = rect.top + window.scrollY - 100; // Adjust offset to be above keyboard
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }, 300); // Delay to account for keyboard appearance
+  });
   wrapper.appendChild(input);
   div.appendChild(wrapper);
   return div;
@@ -472,7 +499,9 @@ function nextQuestion(idx) {
     container.appendChild(nextElem);
     setTimeout(() => nextElem.classList.add('show'), 50);
     nextElem.querySelector('input,select').focus();
-    nextElem.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    setTimeout(() => {
+      nextElem.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Scroll to center for visibility above keyboard
+    }, 100);
   } else {
     showResult();
   }
