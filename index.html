@@ -257,8 +257,7 @@ body {
 }
 @media (max-width: 480px) {
   body {
-    align-items: flex-start; /* Align to top for better mobile experience */
-    padding-top: 20px; /* Add some top padding */
+    align-items: center; /* Center align for mobile */
     overflow-y: auto; /* Ensure body can scroll */
     touch-action: pan-y; /* Improve touch scrolling */
   }
@@ -267,7 +266,7 @@ body {
     min-height: auto; 
     padding: 15px; 
     transform: translateY(0); 
-    margin-bottom: 100px; /* Add bottom margin to allow scrolling past keyboard */
+    margin-bottom: 200px; /* Increased bottom margin to allow scrolling past keyboard */
   }
   .container:hover { transform: translateY(-5px); }
   .inner-container {
@@ -423,7 +422,7 @@ function createQuestionElement(obj, index) {
     // Scroll to make input visible above keyboard on mobile
     setTimeout(() => {
       const rect = e.target.getBoundingClientRect();
-      const offset = rect.top + window.scrollY - 100; // Adjust offset to be above keyboard
+      const offset = rect.top + window.scrollY - 150; // Adjusted offset to be higher above keyboard
       window.scrollTo({ top: offset, behavior: 'smooth' });
     }, 300); // Delay to account for keyboard appearance
   });
@@ -642,7 +641,7 @@ function showResult() {
       clone.style.margin = '0 auto';
       clone.style.display = 'flex';
       clone.style.flexDirection = 'column';
-      clone.style.alignItems = 'center';
+      clone.style.alignItems: 'center';
 
       const title = clone.querySelector('strong');
       if (title) {
@@ -659,7 +658,7 @@ function showResult() {
       lines.forEach(line => {
         line.style.display = 'flex';
         line.style.justifyContent = 'space-between';
-        line.style.alignItems = 'center';
+        line.style.alignItems: 'center';
         line.style.width = '100%';
         line.style.maxWidth = '420px';
         line.style.padding = `${linePadding}px`;
