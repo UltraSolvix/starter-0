@@ -290,7 +290,7 @@ body {
 <body>
 <div id="splash">
   <div id="splashCard">
-    <img src="https://wallpapers.com/images/hd/black-and-purple-galaxy-guoay2tkxcb95nmn.jpg" alt="Hydration Pro Logo">
+    <img src="A_hyperrealistic_image_of_a_stunning_space_galaxy_background_with_integrated_black_and_vibrant_purpl (2).png" alt="Hydration Pro Logo">
   </div>
 </div>
 
@@ -518,18 +518,18 @@ function addMinutes(timeStr, mins) {
 function showResult() {
   let user = {};
   questions.forEach((q, i) => { user[i] = answers[i]; });
-  let base = parseFloat(user[2] || 0) * 0.033 * 0.94;
+  let base = parseFloat(user[2] * 0.033 * 0.94);
   if (user[4] && parseFloat(user[4]) < 15) base += base * 0.05;
   if (user[1] === "انثى") base -= base * 0.10;
-  if (parseFloat(user[0] || 0) > 40) base += 0.05;
+  if (user[0] > 40) base += 0.05;
   base += (parseFloat(user[6] || 3) * 0.2) + ((parseFloat(user[7] || 45) / 60) * 0.8);
-  if (parseFloat(user[8] || 6) > 7 || parseFloat(user[37] || 0) > 150) base *= 1.12;
+  if (parseFloat(user[8] || 6) > 7 || parseFloat(user[44] || 0) > 150) base *= 1.12;
   if (user[9] === "نعم" && user[10] && user[11]) {
     let sweat = (parseFloat(user[10]) - parseFloat(user[11])) + parseFloat(user[13] || 0);
     base += sweat * (parseFloat(user[6] || 3) / 7);
   }
   if (parseFloat(user[22] || 0) > 400) base += 0.2;
-  if (user[18] === "نعم") base += 0.7;
+  if (user[19] === "نعم") base += 0.7;
   if (user[20] && user[20].toLowerCase().includes("creat")) base += 0.25;
   if (parseFloat(user[29] || 7) < 7 || user[30] === "نعم") base += 0.2;
   if (user[34] === "غامق") base += 0.5;
@@ -581,7 +581,7 @@ function showResult() {
   let scheduleDiv = document.createElement('div');
   scheduleDiv.classList.add('schedule-card');
   scheduleDiv.id = "scheduleCard";
-  scheduleDiv.innerHTML = "<strong>برنامج الترطيب اليومي</strong><br><br>";
+  scheduleDiv.innerHTML = "<strong>Your Programe</strong><br><br>";
 
   windows.forEach((w, i) => {
     const timeStr = times[w[0]];
@@ -641,7 +641,8 @@ function showResult() {
       clone.style.margin = '0 auto';
       clone.style.display = 'flex';
       clone.style.flexDirection = 'column';
-      clone.style.alignItems: 'center';
+      clone.style.alignItems = 'center';
+
 
       const title = clone.querySelector('strong');
       if (title) {
@@ -658,7 +659,7 @@ function showResult() {
       lines.forEach(line => {
         line.style.display = 'flex';
         line.style.justifyContent = 'space-between';
-        line.style.alignItems: 'center';
+        line.style.alignItems = 'center';
         line.style.width = '100%';
         line.style.maxWidth = '420px';
         line.style.padding = `${linePadding}px`;
@@ -742,3 +743,4 @@ function showResult() {
 </script>
 </body>
 </html>
+
